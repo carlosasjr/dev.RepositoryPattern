@@ -1,0 +1,19 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="MessDetectorValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="customRulesets">
+        <list>
+          <RulesetDescriptor>
+            <option name="name" value="Code Size Rules" />
+            <option name="path" value="D:/PHP/Library/vendor/phpmd/phpmd/phpmd.xml" />
+          </RulesetDescriptor>
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PhpCSValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="CODING_STANDARD" value="PSR2" />
+      <option name="WARNING_HIGHLIGHT_LEVEL_NAME" value="PhpCS" />
+    </inspection_tool>
+  </profile>
+</component>
