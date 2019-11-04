@@ -1,20 +1,20 @@
 @extends('adminlte::page')
 
-@section('title', 'Listagem de Categorias')
+@section('title', 'Listagem de Produtos')
 
 @section('content_header')
-    <h1>Categorias</h1>
+    <h1>Produtos</h1>
 
     <ol class="breadcrumb">
         <li><a href="{{ route('admin') }}">Dashboard</a></li>
-        <li><a href="{{ route('categories.index') }}" class="active">Categorias</a></li>
+        <li><a href="{{ route('products.index') }}" class="active">Produtos</a></li>
     </ol>
 @stop
 
 @section('content')
     <div class="content row">
         <p>
-            <a href="{{route('categories.create')}}" class="btn btn-primary">
+            <a href="{{route('products.create')}}" class="btn btn-primary">
                 <span class="glyphicon glyphicon-plus"></span>
                 Adicionar
             </a>
@@ -34,17 +34,18 @@
                 </div>
             </div>
             <div class="box-body">
-                {!! Form::open(['route' => ['categories.search'], 'class' => 'form form-inline form-search']) !!}
+                {!! Form::open(['route' => ['products.search'], 'class' => 'form form-inline form-search']) !!}
 
+                {!! Form::select('category_id', $categories, '', ['class' => 'form-control', 'id' => 'category_id']) !!}
                 {!! Form::text('id', null, ['placeholder' => 'ID', 'class' => 'form-control', 'id' => 'id']) !!}
-                {!! Form::text('title', null, ['placeholder' => 'Título', 'class' => 'form-control', 'id' => 'title']) !!}
+                {!! Form::text('name', null, ['placeholder' => 'Nome', 'class' => 'form-control', 'id' => 'name']) !!}
                 {!! Form::text('url', null, ['placeholder' => 'URL', 'class' => 'form-control', 'id' => 'url']) !!}
                 {!! Form::text('description', null, ['placeholder' => 'Descrição', 'class' => 'form-control', 'id' => 'description']) !!}
 
                 {!! Form::submit('Filtrar', ['class' => 'btn btn-danger', 'id' => 'btnSearch']) !!}
                 {!! Form::close() !!}
 
-                <a id="search-true" style="display: none" href="{{ route('categories.index') }}">(x) Limpar Resultados da pesquisa</a>
+                <a id="search-true" style="display: none" href="{{ route('products.index') }}">(x) Limpar Resultados da pesquisa</a>
             </div>
         </div>
         <!--FILTRO-->
@@ -53,12 +54,14 @@
 
     <!--TABELA -->
         <div id="tabela">
-            @include('admin.categories.partials.table')
+            @include('admin.products.partials.table')
         </div>
         <!--TABELA -->
     </div>
 @stop
 
 @section('js')
-    <script src="{{ url('js/admin/categories/jsCategoryTable.js') }}"></script>
+    <script src="{{ url('js/admin/products/jsProductTable.js') }}"></script>
 @stop
+
+
