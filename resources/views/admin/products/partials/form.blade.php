@@ -10,6 +10,10 @@
 </div>
 
 <div class="form-group">
+    @php
+        $categories->prepend('Selecione', '');
+    @endphp
+
     {!! Form::label('category_id', 'Categoria', ['class' => 'control-label']); !!}
     {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
 </div>

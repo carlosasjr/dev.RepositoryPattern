@@ -13,7 +13,7 @@ use function foo\func;
 class ProductController extends Controller
 {
     protected $product;
-    protected $totalPage = 1;
+    protected $totalPage = 15;
 
     public function __construct(Product $product)
     {
@@ -43,7 +43,7 @@ class ProductController extends Controller
         }
 
         $products = $this->product
-            ->orderBy('id', 'desc')
+           // ->orderBy('id', 'desc') orderby no scopo global
             ->paginate($this->totalPage);
 
         return view('admin.products.index', compact('products'));
@@ -56,10 +56,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //  $categories = Category::all()->pluck('title', 'id');
-
-        $categories->prepend('Selecionar', '');
-
         return view('admin.products.create', compact('categories'));
     }
 
@@ -167,7 +163,6 @@ class ProductController extends Controller
                                        ->orWhere('description', 'like', "%{$search}%")
                                        ->paginate($this->totalPage);*/
 
-
         $products = $this->product->with('category')
             ->where(function ($query) use ($dataForm) {
 
@@ -195,7 +190,8 @@ class ProductController extends Controller
                     $query->orWhere('description', 'like', "%{$field}%");
                 }
 
-            })->orderBy('id', 'desc')
+            })
+            //->orderBy('id', 'desc') orderby no scopo global
             ->paginate($this->totalPage);
 
         return View::make('admin.products.partials.table', compact('products'))->render();

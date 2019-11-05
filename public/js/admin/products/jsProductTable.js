@@ -17,7 +17,7 @@ $(document).on('click','#btnSearch', function(e){
     var dataForm = {
         id:  $('#id').val(),
         category_id: $("#category_id option:selected").val(),
-        title: $('#name').val(),
+        name: $('#name').val(),
         url: $('#url').val(),
         description: $('#description').val()
     };
@@ -40,7 +40,7 @@ function getProducts(page){
     var dataForm = {
         id:  $('#id').val(),
         category_id: $("#category_id option:selected").val(),
-        title: $('#name').val(),
+        name: $('#name').val(),
         url: $('#url').val(),
         description: $('#description').val()
     };

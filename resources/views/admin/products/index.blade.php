@@ -35,7 +35,9 @@
             </div>
             <div class="box-body">
                 {!! Form::open(['route' => ['products.search'], 'class' => 'form form-inline form-search']) !!}
-
+                @php
+                    $categories->prepend('Selecione', '');
+                @endphp
                 {!! Form::select('category_id', $categories, '', ['class' => 'form-control', 'id' => 'category_id']) !!}
                 {!! Form::text('id', null, ['placeholder' => 'ID', 'class' => 'form-control', 'id' => 'id']) !!}
                 {!! Form::text('name', null, ['placeholder' => 'Nome', 'class' => 'form-control', 'id' => 'name']) !!}
@@ -45,7 +47,7 @@
                 {!! Form::submit('Filtrar', ['class' => 'btn btn-danger', 'id' => 'btnSearch']) !!}
                 {!! Form::close() !!}
 
-                <a id="search-true" style="display: none" href="{{ route('products.index') }}">(x) Limpar Resultados da pesquisa</a>
+                <a id="search-true" style="display: none" href="{{ route('products.index') }}">(x) Limpar resultados da pesquisa</a>
             </div>
         </div>
         <!--FILTRO-->
