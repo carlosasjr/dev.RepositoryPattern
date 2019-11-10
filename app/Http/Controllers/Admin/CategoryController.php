@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreUpdateCategoryFormRequest;
-use App\Models\Category;
+
+use App\Repositories\Contracts\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use View;
 
 class CategoryController extends Controller
 {
-    private $category;
-    private $totalPage = 1;
+    private $repository;
+    private $totalPage = 15;
 
 
-    public function __construct(Category $category)
+    public function __construct(CategoryRepositoryInterface $repository)
     {
-        $this->category = $category;
+        $this->repository = $repository;
     }
 
     /**
@@ -33,16 +34,12 @@ class CategoryController extends Controller
                 return $this->search($request);
             }
 
-            $categories = $this->category
-                ->orderBy('id', 'desc')
-                ->paginate($this->totalPage);
+            $categories = $this->repository->paginate($this->totalPage);
 
-            return View::make('admin.categories.partials.table',compact('categories'))->render();
+            return View::make('admin.categories.partials.table', compact('categories'))->render();
         }
 
-        $categories = $this->category
-                            ->orderBy('id', 'desc')
-                            ->paginate($this->totalPage);
+        $categories = $this->repository->paginate($this->totalPage);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -63,16 +60,14 @@ class CategoryController extends Controller
      */
     public function store(StoreUpdateCategoryFormRequest $request)
     {
-        $dataForm = $request->all();
+        $dataForm = $request->only('title', 'description');
 
-        $insert = $this->category->create($dataForm);
-
-        if (!$insert) {
+        if (!$this->repository->store($dataForm)) {
             return redirect()->route('categories.create');
         }
 
         return redirect()->route('categories.index')
-                         ->with('success', 'Cadastro realizado com sucesso!');
+            ->with('success', 'Cadastro realizado com sucesso!');
     }
 
     /**
@@ -83,10 +78,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = $this->category->find($id);
-
-        if (!$category)
-        {
+        if (!$category = $this->repository->findById($id)) {
             return redirect()->back();
         }
 
@@ -101,10 +93,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->category->find($id);
-
-        if (!$category)
-        {
+        if (!$category = $this->repository->findById($id)) {
             return redirect()->back();
         }
 
@@ -118,14 +107,11 @@ class CategoryController extends Controller
      */
     public function update(StoreUpdateCategoryFormRequest $request, $id)
     {
-        $dataForm = $request->all();
+        $dataForm = $request->only('title', 'description');
 
-        $category = $this->category->find($id);
-
-        $update = $category->update($dataForm);
-
-        if (!$update) {
-            return redirect()->route('categories.edit', $id)->with(['errors' => 'Falha ao editar']);
+        if (!$this->repository->update($id, $dataForm)) {
+            return redirect()->route('categories.edit', $id)
+                ->with(['errors' => 'Falha ao editar']);
         }
 
         return redirect()->route('categories.index');
@@ -139,50 +125,22 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = $this->category->find($id);
-
-        if (!$category)
-        {
+        if (!$category = $this->repository->findById($id)) {
             return redirect()->back();
         }
 
-        $category->delete();
+        $this->repository->delete($id);
 
         return redirect()->route('categories.index')
-                         ->with('success', "Registro [{$category->id} -  {$category->title}] excluido com sucesso!");;
+            ->with('success', "Registro [{$category->id} -  {$category->title}] excluido com sucesso!");;
     }
 
     public function search(Request $request)
     {
-        $dataForm = $request->all();
+        $data = $request->except('_token');
 
-      /*  $categories = $this->category->where('title', 'like', "%{$search}%")
-                                     ->orWhere('url', 'like', "%{$search}%")
-                                     ->orWhere('description', 'like', "%{$search}%")
-                                     ->paginate($this->totalPage);*/
+        $categories = $this->repository->search($data);
 
-         $categories = $this->category->where(function ($query) use ($dataForm) {
-            if (isset($dataForm['id'])) {
-                $query->where('id', $dataForm['id']);
-            }
-
-             if (isset($dataForm['title'])) {
-                 $field = $dataForm['title'];
-                 $query->orWhere('title', 'like', "%{$field}%" );
-             }
-
-             if (isset($dataForm['url'])) {
-                 $field = $dataForm['url'];
-                 $query->orWhere('url', 'like', "%{$field}%" );
-             }
-
-             if (isset($dataForm['description'])) {
-                 $field = $dataForm['description'];
-                 $query->orWhere('description', 'like', "%{$field}%" );
-             }
-         })->orderBy('id', 'desc')
-           ->paginate($this->totalPage) ;
-
-          return View::make('admin.categories.partials.table',compact('categories'))->render();
+        return View::make('admin.categories.partials.table', compact('categories'))->render();
     }
 }

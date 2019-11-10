@@ -39,10 +39,9 @@
                     $categories->prepend('Selecione', '');
                 @endphp
                 {!! Form::select('category_id', $categories, '', ['class' => 'form-control', 'id' => 'category_id']) !!}
-                {!! Form::text('id', null, ['placeholder' => 'ID', 'class' => 'form-control', 'id' => 'id']) !!}
                 {!! Form::text('name', null, ['placeholder' => 'Nome', 'class' => 'form-control', 'id' => 'name']) !!}
                 {!! Form::text('url', null, ['placeholder' => 'URL', 'class' => 'form-control', 'id' => 'url']) !!}
-                {!! Form::text('description', null, ['placeholder' => 'Descrição', 'class' => 'form-control', 'id' => 'description']) !!}
+
 
                 {!! Form::submit('Filtrar', ['class' => 'btn btn-danger', 'id' => 'btnSearch']) !!}
                 {!! Form::close() !!}

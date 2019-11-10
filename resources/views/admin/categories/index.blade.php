@@ -36,7 +36,6 @@
             <div class="box-body">
                 {!! Form::open(['route' => ['categories.search'], 'class' => 'form form-inline form-search']) !!}
 
-                {!! Form::text('id', null, ['placeholder' => 'ID', 'class' => 'form-control', 'id' => 'id']) !!}
                 {!! Form::text('title', null, ['placeholder' => 'Título', 'class' => 'form-control', 'id' => 'title']) !!}
                 {!! Form::text('url', null, ['placeholder' => 'URL', 'class' => 'form-control', 'id' => 'url']) !!}
                 {!! Form::text('description', null, ['placeholder' => 'Descrição', 'class' => 'form-control', 'id' => 'description']) !!}

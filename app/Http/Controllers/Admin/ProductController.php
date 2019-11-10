@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreUpdateProductFormRequest;
-use App\Models\Category;
-use App\Models\Product;
+use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use View;
@@ -12,12 +11,12 @@ use function foo\func;
 
 class ProductController extends Controller
 {
-    protected $product;
+    protected $repository;
     protected $totalPage = 15;
 
-    public function __construct(Product $product)
+    public function __construct(ProductRepositoryInterface $repository)
     {
-        $this->product = $product;
+        $this->repository = $repository;
     }
 
     /**
@@ -35,17 +34,18 @@ class ProductController extends Controller
                 return $this->search($request);
             }
 
-            $products = $this->product
-                ->orderBy('id', 'desc')
-                ->paginate($this->totalPage);
+            $products = $this->repository
+                             ->relationships('category')
+                             ->orderBy('id')
+                             ->paginate($this->totalPage);
 
             return View::make('admin.products.partials.table', compact('products'))->render();
         }
 
-        $products = $this->product
-           // ->orderBy('id', 'desc') orderby no scopo global
-            ->paginate($this->totalPage);
-
+        $products = $this->repository
+                         ->relationships('category')
+                         ->orderBy('id')
+                         ->paginate($this->totalPage);
         return view('admin.products.index', compact('products'));
     }
 
@@ -67,14 +67,12 @@ class ProductController extends Controller
     {
         $dataForm = $request->all();
 
-        $insert = $this->product->create($dataForm);
-
-        if (!$insert) {
+        if (!$this->repository->store($dataForm)) {
             return redirect()->route('products.create');
         }
 
         return redirect()->route('products.index')
-            ->with('success', 'Cadastro realizado com sucesso!');
+                         ->with('success', 'Cadastro realizado com sucesso!');
     }
 
     /**
@@ -85,10 +83,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = $this->product->with('category')
-            ->find($id);
-
-        if (!$product) {
+        if (!$product = $this->repository->findById($id)) {
             return redirect()->back();
         }
 
@@ -103,9 +98,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->product->find($id);
-
-        if (!$product) {
+        if (!$product = $this->repository->findById($id)) {
             return redirect()->back();
         }
 
@@ -121,17 +114,12 @@ class ProductController extends Controller
     {
         $dataForm = $request->all();
 
-        $product = $this->product->find($id);
-
-        $product->update($dataForm);
-
-        if (!$product) {
+        if (!$this->repository->update($id, $dataForm)) {
             return redirect()->route('admin.products.edit', $id)
-                ->with(['errors' => 'Falha ao editar']);
+                             ->with(['errors' => 'Falha ao editar']);
         }
 
         return redirect()->route('products.index');
-
     }
 
     /**
@@ -142,57 +130,19 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->product->find($id);
-
-        if (!$product) {
+        if (!$product = $this->repository->findById($id)) {
             return redirect()->back();
         }
 
-        $product->delete();
+        $this->repository->delete($id);
 
         return redirect()->route('products.index')
-            ->with('success', "Registro [{$product->id} -  {$product->name}] excluido com sucesso!");
+                         ->with('success', "Registro [{$product->id} -  {$product->name}] excluido com sucesso!");
     }
 
     public function search(Request $request)
     {
-        $dataForm = $request->all();
-
-        /*  $categories = $this->category->where('title', 'like', "%{$search}%")
-                                       ->orWhere('url', 'like', "%{$search}%")
-                                       ->orWhere('description', 'like', "%{$search}%")
-                                       ->paginate($this->totalPage);*/
-
-        $products = $this->product->with('category')
-            ->where(function ($query) use ($dataForm) {
-
-                if (isset($dataForm['id'])) {
-                    $query->where('id', $dataForm['id']);
-                }
-
-                if (isset($dataForm['category_id'])) {
-                    $field = $dataForm['category_id'];
-                    $query->orWhere('category_id', '=', "{$field}");
-                }
-
-                if (isset($dataForm['name'])) {
-                    $field = $dataForm['name'];
-                    $query->orWhere('name', 'like', "%{$field}%");
-                }
-
-                if (isset($dataForm['url'])) {
-                    $field = $dataForm['url'];
-                    $query->orWhere('url', 'like', "%{$field}%");
-                }
-
-                if (isset($dataForm['description'])) {
-                    $field = $dataForm['description'];
-                    $query->orWhere('description', 'like', "%{$field}%");
-                }
-
-            })
-            //->orderBy('id', 'desc') orderby no scopo global
-            ->paginate($this->totalPage);
+        $products = $this->repository->search($request);
 
         return View::make('admin.products.partials.table', compact('products'))->render();
     }

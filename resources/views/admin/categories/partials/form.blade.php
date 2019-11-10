@@ -10,11 +10,6 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('url', 'URL', ['class' => 'control-label']); !!}
-    {!! Form::text('url', null, ['class' => 'form-control', 'placeholder' => 'URL']) !!}
-</div>
-
-<div class="form-group">
     {!! Form::label('description', 'Descrição', ['class' => 'control-label']); !!}
     {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Descrição']) !!}
 </div>

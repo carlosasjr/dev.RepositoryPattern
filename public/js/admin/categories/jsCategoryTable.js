@@ -15,7 +15,6 @@ $(document).on('click','#btnSearch', function(e){
     e.preventDefault();
 
     var dataForm = {
-        id:  $('#id').val(),
         title: $('#title').val(),
         url: $('#url').val(),
         description: $('#description').val()
@@ -37,7 +36,6 @@ $(document).on('click','#btnSearch', function(e){
 
 function getProducts(page){
     var dataForm = {
-        id:  $('#id').val(),
         title: $('#title').val(),
         url: $('#url').val(),
         description: $('#description').val()
