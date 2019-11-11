@@ -17,6 +17,15 @@
 ## Laravel Debugbar
 <p>composer require barryvdh/laravel-debugbar --dev</p>
 
+## Laravel Charts
+<p>https://github.com/ConsoleTVs/Charts</p>
+<p>https://charts.erik.cat/</p>
+<p>composer require consoletvs/charts:6.*</p>
+<p>php artisan vendor:publish --tag=charts_config</p>
+
+<p> $ php artisan make:chart ReportsChart </p>
+
+
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
