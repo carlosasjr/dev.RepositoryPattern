@@ -1,21 +1,21 @@
 ## Instalation
 
 ## Admin LTE
-https://github.com/jeroennoten/Laravel-AdminLTE
+<p>https://github.com/jeroennoten/Laravel-AdminLTE</p>
 
-composer require jeroennoten/laravel-adminlte
-php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\AdminLteServiceProvider" --tag=views
-php artisan adminlte:install --only=config
-php artisan adminlte:install --only=auth_views
-php artisan adminlte:install --only=translations
-php artisan adminlte:install --only=main_views
+<p>composer require jeroennoten/laravel-adminlte</p>
+<p>php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\AdminLteServiceProvider" --tag=views</p>
+<p>php artisan adminlte:install --only=config</p>
+<p>php artisan adminlte:install --only=auth_views</p>
+<p>php artisan adminlte:install --only=translations</p>
+<p>php artisan adminlte:install --only=main_views</p>
 
 
 ## Laravel Collective HTML
-composer require "laravelcollective/html":"^5.4.0"
+<p>composer require "laravelcollective/html":"^5.4.0"</p>
 
 ## Laravel Debugbar
-composer require barryvdh/laravel-debugbar --dev
+<p>composer require barryvdh/laravel-debugbar --dev</p>
 
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
