@@ -137,9 +137,12 @@ class CategoryController extends Controller
 
     public function search(Request $request)
     {
-        $data = $request->except('_token');
+        //QueryBuilder
+        //$data = $request->except('_token');
+        //$categories = $this->repository->search($data);
 
-        $categories = $this->repository->search($data);
+        //Eloquent
+        $categories = $this->repository->search($request);
 
         return View::make('admin.categories.partials.table', compact('categories'))->render();
     }

@@ -145,9 +145,21 @@ return [
             'header' => 'account_settings'
         ],
         [
-            'text' => 'profile',
-            'url' => 'admin/settings',
+            'text' => 'Usuários',
+            'url' => 'admin/users',
             'icon' => 'user',
+        ],
+
+        [
+            'text' => 'Relatórios',
+             'icon' => 'area-chart',
+            'submenu' => [
+                [
+                    'text' => 'Meses',
+                    'url' => 'admin/reports/months',
+                    'icon' => 'line-chart',
+                ]
+            ]
         ],
 
         /*
@@ -286,7 +298,7 @@ return [
         ],
         [
             'name' => 'Chartjs',
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
