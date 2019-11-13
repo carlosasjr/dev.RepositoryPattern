@@ -8,9 +8,7 @@ use App\Repositories\Contracts\{
     ReportsRepositoryInterface
 };
 
-use App\Repositories\Core\Eloquent\{
-    EloquentCategoryRepository,
-    EloquentProductRepository};
+use App\Repositories\Core\Eloquent\{EloquentCategoryRepository, EloquentProductRepository, EloquentReportsRepository};
 
 use App\Repositories\Core\QueryBuilder\{
     QueryBuilderCategoryRepository,
@@ -51,7 +49,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(
             ReportsRepositoryInterface::class,
-            QueryBuilderReportsRepository::class
+            EloquentReportsRepository::class
+            //QueryBuilderReportsRepository::class
         );
     }
 }

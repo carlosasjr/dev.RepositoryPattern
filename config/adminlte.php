@@ -158,6 +158,11 @@ return [
                     'text' => 'Meses',
                     'url' => 'admin/reports/months',
                     'icon' => 'line-chart',
+                ],
+                [
+                    'text' => 'Anos',
+                    'url' => 'admin/reports/years',
+                    'icon' => 'line-chart',
                 ]
             ]
         ],
