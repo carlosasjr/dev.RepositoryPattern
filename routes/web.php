@@ -11,12 +11,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::any('products/search', 'ProductController@search')->name('products.search');
     Route::resource('products', 'ProductController');
+
 });
 
 
+Route::get('teste', function() {
+
+    dd(opcache_get_configuration());
+});
 
 Auth::routes(['register' => true]);
 Route::get('/', 'SiteController@index')->name('admin');
+
 
 
 

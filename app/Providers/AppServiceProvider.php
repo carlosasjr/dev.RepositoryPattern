@@ -31,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('admin.products.*', function ($view) {
             $view->with('categories', Category::pluck('title', 'id'));
         });
+
+
     }
 }

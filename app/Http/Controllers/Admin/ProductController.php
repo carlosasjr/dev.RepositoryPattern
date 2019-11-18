@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreUpdateProductFormRequest;
+use App\Models\Category;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -56,6 +57,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+
         return view('admin.products.create', compact('categories'));
     }
 
@@ -101,6 +103,8 @@ class ProductController extends Controller
         if (!$product = $this->repository->findById($id)) {
             return redirect()->back();
         }
+
+        $categories = $this->repository->getAll();
 
         return view('admin.products.create', compact('product', 'categories'));
     }
